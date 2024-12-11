@@ -1,0 +1,1 @@
+export const { PORT = 3000, DATABASE = 'mensajeria' } = process.env
