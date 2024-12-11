@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
     host: 'localhost',
     port: 5432,
     username: 'postgres',
-    password: 'losamigos',
+    password: 'postgres',
     database: DATABASE,
     entities: [
         Estados, 
@@ -24,7 +24,7 @@ export const AppDataSource = new DataSource({
         Empresas,
         Mensajes
     ],
-    synchronize: true,
+    synchronize: false,
     logging: true
 });
 
