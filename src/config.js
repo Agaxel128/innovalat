@@ -1,1 +1,1 @@
-export const { PORT = 3000, DATABASE = 'projects' } = process.env
+export const { PORT = 3000, DATABASE = 'projects', JWT_SECRET, JWT_REFRESH, MODE } = process.env

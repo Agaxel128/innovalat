@@ -1,4 +1,5 @@
-import { EntitySchema } from 'typeorm'
+import { EntitySchema } from 'typeorm';
+import bcrypt from 'bcrypt';
 
 export const Usuarios = new EntitySchema({
   name: 'mg_usuarios',
@@ -7,6 +8,18 @@ export const Usuarios = new EntitySchema({
       primary: true,
       type: 'integer',
       generated: true,
+      unique: true
+    },
+    correo: {
+      type: 'varchar',
+      length: 255,
+      nullable: false,
+      unique: true
+    },
+    usuario: {
+      type: 'varchar',
+      length: 50,
+      nullable: false,
       unique: true
     },
     password: {
@@ -39,4 +52,9 @@ export const Usuarios = new EntitySchema({
       inverseSide: 'mg_usuarios'
     }
   }
-})
+});
+
+// Función para comparar contraseñas
+export const comparePasswords = async (password, hashedPassword) => {
+  return await bcrypt.compare(password, hashedPassword);
+};
