@@ -10,7 +10,6 @@ export const SignIn = async (req, res) => {
     try {
         // Buscar usuario por correo
         const user = await usuariosRepository.findOneBy({ correo: email });
-
         if (user === null) {
             return res.json({
                 status: 'fail',
@@ -29,7 +28,7 @@ export const SignIn = async (req, res) => {
 
         // Generar token
         const token = generateToken(user.codigo_usuario);
-        return res.json({ status: 'ok', token });
+        return res.json({ status: 'ok', token, codigo: user.codigo_usuario });
     } catch (error) {
         console.error('Error en SignIn:', error);
         return res.status(500).json({ error: 'Error interno del servidor' });

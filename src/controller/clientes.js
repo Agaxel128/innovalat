@@ -4,12 +4,35 @@ const clienteRepository = AppDataSource.getRepository(Clientes);
 
 export const getAllClientes = async (req, res) => {
     try {
-        const clientes = await clienteRepository.find();
-        res.status(200).json(clientes);
+        // Obtener página y límite de la consulta o establecer valores predeterminados
+        const page = parseInt(req.query.page) || 1; // Página actual
+        const limit = parseInt(req.query.limit) || 10; // Tamaño de página
+        const skip = (page - 1) * limit; // Calcular documentos a omitir
+
+        // Contar el total de clientes
+        const totalClientes = await clienteRepository.count();
+
+        // Obtener los clientes con paginación
+        const clientes = await clienteRepository.find({
+            skip: skip,
+            take: limit,
+        });
+
+        // Calcular el número total de páginas
+        const totalPages = Math.ceil(totalClientes / limit);
+
+        // Respuesta con los datos paginados y metadatos
+        res.status(200).json({
+            currentPage: page,
+            totalPages: totalPages,
+            totalClientes: totalClientes,
+            clients: clientes,
+        });
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener los clientes', error });
+        res.status(500).json({ message: "Error al obtener los clientes", error });
     }
 };
+
 
 export const createCliente = async (req, res) => {
     try {
